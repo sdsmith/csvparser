@@ -1,0 +1,335 @@
+"5","5","
+/*********************************************
+ * #### #. #######                           *
+ *                ##### ## ############ #### *
+ * ##########/###############.####           *
+ *********************************************/
+package Conjuntos;
+ import java.util.StringTokenizer;
+ 
+
+
+public class ConjuntoPalabras extends Conjunto {
+    public ConjuntoPalabras () { 
+        super();
+    }
+
+    public ConjuntoPalabras (Conjunto c) { 
+        super();
+        for (int e = 1; e <= c.tamañoDelConjunto(); e++)
+            añadeElemento(c.elementoNesimo(e));
+    }
+
+    public void añadeElemento(String elemento) {
+        super.añadeElemento((Object) new String(elemento));
+    }
+
+    public void crearListapalabras (String definicion\, Conjunto c){
+        StringTokenizer st = new StringTokenizer(definicion);
+     
+    int numero_Palabras = 0;
+		System.out.println(\"---- Split by space ------\");
+		while (st.hasMoreElements()) {
+		    c.añadeElemento (st.nextElement());
+		    numero_Palabras ++;
+			System.out.println(st.nextElement());
+		}
+		System.out.println(\"numero de palabras\" + numero_Palabras);
+		System.out.println(\"segundapalabra\" + c.elementoNesimo(2));}
+    //if (definicion == null)
+    //   return;
+      
+        
+    public String toString() {
+        String cimpreso = new String(\"[\");
+        for (int elemento = 1; 
+                elemento <= tamañoDelConjunto();
+                elemento++) {
+            cimpreso += (String) elementoNesimo(elemento);
+            if (elemento < tamañoDelConjunto())
+                cimpreso += \"\,\";
+        }
+        cimpreso += \"]\";
+        return cimpreso;
+    }
+
+    public void imprimeConjuntoPalabras() {
+        System.out.println(this);
+    }
+}"
+"6","6","
+/*********************************************
+ * #### #. #######                           *
+ *        ##### ## ############ ####         *
+ * ##########/########.####                  *
+ *********************************************/
+
+package Conjuntos;
+
+public class ListaOrdenada {
+    private int       tamaño;
+    private Object[]  elementos;
+
+    public Conjunto () { 
+        tamaño = 0;
+        elementos = null;
+    }
+
+    public Conjunto (Conjunto c) { 
+        this();
+        for (int e = 1; e <= c.tamaño; e++)
+            añadeElemento(c.elementoNesimo(e));
+    }
+
+    public void añadeElemento(Object elemento) {
+        if (pertenece(elemento))
+            return;
+
+        tamaño ++;
+        Object[] nuevosElementos = new Object[tamaño];
+
+        for (int e = 0; e < tamaño - 1; e ++) 
+            nuevosElementos[e] = elementos[e];
+
+        nuevosElementos[tamaño-1] = elemento;
+
+        elementos = nuevosElementos;
+    }
+
+    public void eliminaElemento(int indiceElemento) {
+        tamaño --;
+        Object[] nuevosElementos = new Object[tamaño];
+
+        int e\, ne;
+        for (e = ne = 0; e < tamaño+1; e ++)  {
+            if (e != (indiceElemento-1))
+                nuevosElementos[ne++] = elementos[e];
+        }
+
+        elementos = nuevosElementos;
+    }
+
+    public int tamañoDelConjunto() {
+        return tamaño;
+    }
+
+    public Object elementoNesimo (int n) {
+        if ((n > 0) && (n <= tamaño))
+            return elementos[n-1];
+        else
+            return (Object) null;
+    }
+
+    public boolean pertenece (Object elemento) {
+        for (int e = 1; e <= tamañoDelConjunto(); e++) 
+            if (elementoNesimo(e).equals(elemento))
+                return true;
+        return false;
+    }
+
+
+
+    public static Conjunto diferenciaConjuntos (Conjunto total\,
+            Conjunto sustraendo) {
+        Conjunto diferencia = new Conjunto();
+        for (int e = 1; e <= total.tamañoDelConjunto(); e++)
+            if (!sustraendo.pertenece(
+                    total.elementoNesimo(e)))
+                diferencia.añadeElemento(
+                    total.elementoNesimo(e));
+        return diferencia;
+    }
+
+    public static Conjunto unionConjuntos (Conjunto conj1\,
+            Conjunto conj2) {
+
+        Conjunto union = new Conjunto(conj1);
+        for (int e = 1; e <= conj2.tamañoDelConjunto(); e++) 
+            union.añadeElemento(conj2.elementoNesimo(e));
+        return union;
+    }
+}"
+"11","7","package Other;
+import  java.util.*;
+public class MineSweeperBkp
+{
+ static Scanner reader=new Scanner (System.in);
+ public static void main (String[] args)
+ {
+  boolean[] columnA=new boolean[5]\,// if true there is a mine.
+            columnB=new boolean[5]\,// if false there is no mine.
+            columnC=new boolean[5]\,
+            columnD=new boolean[5]\,
+            columnE=new boolean[5]\,
+            
+            CheckedColumnA=new boolean[5]\,
+            CheckedColumnB=new boolean[5]\,
+            CheckedColumnC=new boolean[5]\,
+            CheckedColumnD=new boolean[5]\,
+            CheckedColumnE=new boolean[5];
+            
+  boolean alive=true;
+  String InputPlace;
+  int i;
+  char place[]=new char[2];
+  for (i=0; i<5; i++)
+  {
+   columnA[i]=(Math.random() < 0.5);
+   columnB[i]=(Math.random() < 0.5);
+   columnC[i]=(Math.random() < 0.5);
+   columnD[i]=(Math.random() < 0.5);
+   columnE[i]=(Math.random() < 0.5);
+  }
+  for (;;)
+  {
+   System.out.println(\"   A   B   C   D   E\");
+   for (i=0; i<5; i++)
+   {
+    System.out.print(i+1);
+    if (!CheckedColumnA[i])
+     System.out.print(\" [ ]\");
+    else
+    {
+     if (!columnA[i])
+      System.out.print(\" [v]\");
+     else
+      System.out.print(\" [*]\");
+    }
+    if (!CheckedColumnB[i])
+     System.out.print(\" [ ]\");
+    else
+    {
+     if (!columnB[i])
+      System.out.print(\" [v]\");
+     else
+      System.out.print(\" [*]\");
+    }
+    if (!CheckedColumnC[i])
+     System.out.print(\" [ ]\");
+    else
+    {
+     if (!columnC[i])
+      System.out.print(\" [v]\");
+     else
+      System.out.print(\" [*]\");
+    }
+    if (!CheckedColumnD[i])
+     System.out.print(\" [ ]\");
+    else
+    {
+     if (!columnD[i])
+      System.out.print(\" [v]\");
+     else
+      System.out.print(\" [*]\");
+    }
+    if (!CheckedColumnE[i])
+     System.out.print(\" [ ]\");
+    else
+    {
+     if (!columnE[i])
+      System.out.print(\" [v]\");
+     else
+      System.out.print(\" [*]\");
+    }
+    System.out.println();
+   }
+   for (i=0; i<5; i++)
+   {
+    if ((CheckedColumnA[i] && columnA[i]) || (CheckedColumnB[i] && columnB[i]) || (CheckedColumnC[i] && columnC[i]) || (CheckedColumnD[i] && columnD[i]) || (CheckedColumnE[i] && columnE[i]))
+     alive=false;
+   }
+   if (!alive)
+    break;
+   System.out.println();
+   System.out.println(\"Enter place (e.g a1)\");
+   InputPlace=reader.next();
+   InputPlace.getChars(0\, 2\, place\, 0);
+   for (i=0; i<=5; i++)
+   {
+    if (place[0]>'e' || place[1]-49>4)
+    {
+     System.out.println(\"Wrong insert!\");
+     System.out.println();
+     break;
+    }
+    else
+    {
+     if (place[0]=='a' || place[0]=='A')
+     {
+      if (place[1]-49==i)
+      {
+       CheckedColumnA[i]=true;
+       if (!columnA[i])
+        System.out.println(\"You're alive!\");
+       else
+       {
+        System.out.println(\"Mine!\");
+        break;
+       }
+      }
+     }
+     else
+      if (place[0]=='b' || place[0]=='B')
+      {
+        if (place[1]-49==i)
+        {
+        CheckedColumnB[i]=true;
+        if (!columnB[i])
+         System.out.println(\"You're alive!\");
+        else
+        {
+         System.out.println(\"Mine!\");
+         break;
+        }
+       }
+      }
+      else
+       if (place[0]=='c' || place[0]=='C')
+       {
+        if (place[1]-49==i)
+        {
+         CheckedColumnC[i]=true;
+         if (!columnC[i])
+          System.out.println(\"You're alive!\");
+         else
+         {
+          System.out.println(\"Mine!\");
+          break;
+         }
+        }
+       }
+       else
+        if (place[0]=='d' || place[0]=='D')
+        {
+         if (place[1]-49==i)
+         {
+          CheckedColumnD[i]=true;
+          if (!columnD[i])
+           System.out.println(\"You're alive!\");
+          else
+          {
+           System.out.println(\"Mine!\");
+           break;
+          }
+         }
+        }
+        else
+         if (place[0]=='e' || place[0]=='E')
+         {
+          if (place[1]-49==i)
+          {
+           CheckedColumnE[i]=true;
+           if (!columnE[i])
+            System.out.println(\"You're alive!\");
+           else
+           {
+            System.out.println(\"Mine!\");
+            break;
+           }
+          }
+         }
+    } 
+   }
+  }
+ }
+}"
